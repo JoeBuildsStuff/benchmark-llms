@@ -1,0 +1,83 @@
+# ignore the questions folder
+questions/
+
+
+# Byte-compiled / compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and debug files
+logs/
+*.log
+*.out
+*.err
+debug/
+
+# Testing
+.coverage
+.tox/
+.nox/
+htmlcov/
+pytest_cache/
+nosetests.xml
+coverage.xml
+
+# MyPy cache
+.mypy_cache/
+
+# Django specific
+*.sqlite3
+db.sqlite3
+/media/
+*.pot
+
+# Flask & FastAPI specific
+instance/
+.env
+*.env
+
+# IDE files (VSCode, PyCharm, etc.)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker related
+*.dockerfile
+*.envrc
+docker-compose.override.yml
+
+# Ignore pipenv and poetry dependencies
+Pipfile.lock
+poetry.lock
+
+# Ignore Jupyter notebook outputs
+**/.ipynb_checkpoints
+
+# Ignore compiled Cython files
+*.c
+*.so
+
+# Ignore sensitive environment files
+.env.local
+.env.production
+.env.testing
+
+# Ignore any local files that shouldn't be committed
+*.local
+.DS_Store
