@@ -1,6 +1,8 @@
 # ignore the questions folder
 questions/
 
+# ignore the outputs folder
+outputs/
 
 # Byte-compiled / compiled Python files
 __pycache__/
