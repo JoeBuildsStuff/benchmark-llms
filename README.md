@@ -1,433 +1,204 @@
-# LLM Benchmarking Framework
+# LLM Benchmark Tool
 
-A comprehensive framework for benchmarking Large Language Models (LLMs) on multiple-choice question answering tasks. This project allows you to evaluate and compare the performance of different LLMs on standardized question sets.
+A comprehensive benchmarking tool for evaluating Large Language Models (LLMs) on multiple-choice question answering tasks. This tool measures accuracy, response time, token usage, and costs across different models.
 
-Current Results:
+## Overview
 
-<div style="overflow-x: auto;">
-<table>
-  <thead>
-    <tr>
-      <th>test_name</th>
-      <th>model</th>
-      <th>total_questions</th>
-      <th>total_correct</th>
-      <th>total_incorrect</th>
-      <th>accuracy</th>
-      <th>total_duration_seconds</th>
-      <th>total_cost</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>gpt-3.5-turbo-0125</td>
-      <td>65</td>
-      <td>61</td>
-      <td>4</td>
-      <td>93.85%</td>
-      <td>37.8541</td>
-      <td>0.005078</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>gpt-4-0613</td>
-      <td>65</td>
-      <td>64</td>
-      <td>1</td>
-      <td>98.46%</td>
-      <td>53.7187</td>
-      <td>0.17715</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>gpt-4-turbo-2024-04-09</td>
-      <td>65</td>
-      <td>64</td>
-      <td>1</td>
-      <td>98.46%</td>
-      <td>299.324</td>
-      <td>0.36475</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>gpt-4o-2024-11-20</td>
-      <td>65</td>
-      <td>65</td>
-      <td>0</td>
-      <td>100.00%</td>
-      <td>183.454</td>
-      <td>0.13905</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>gpt-4o-mini-2024-07-18</td>
-      <td>65</td>
-      <td>63</td>
-      <td>2</td>
-      <td>96.92%</td>
-      <td>122.595</td>
-      <td>0.004728</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>o1-2024-12-17</td>
-      <td>65</td>
-      <td>58</td>
-      <td>6</td>
-      <td>89.23%</td>
-      <td>214.659</td>
-      <td>0.710865</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>o1-2024-12-17</td>
-      <td>65</td>
-      <td>57</td>
-      <td>6</td>
-      <td>87.69%</td>
-      <td>296.697</td>
-      <td>1.28422</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>o1-mini-2024-09-12</td>
-      <td>65</td>
-      <td>65</td>
-      <td>0</td>
-      <td>100.00%</td>
-      <td>288.638</td>
-      <td>0.145175</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>o3-mini-2025-01-31</td>
-      <td>65</td>
-      <td>63</td>
-      <td>2</td>
-      <td>96.92%</td>
-      <td>346.619</td>
-      <td>0.197295</td>
-    </tr>
-    <tr>
-      <td>cloud-practitioner-clf-c02</td>
-      <td>o3-mini-2025-01-31</td>
-      <td>65</td>
-      <td>60</td>
-      <td>5</td>
-      <td>92.31%</td>
-      <td>189.791</td>
-      <td>0.0514217</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>gpt-3.5-turbo-0125</td>
-      <td>65</td>
-      <td>53</td>
-      <td>12</td>
-      <td>81.54%</td>
-      <td>57.0788</td>
-      <td>0.011824</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>gpt-4-0613</td>
-      <td>65</td>
-      <td>61</td>
-      <td>4</td>
-      <td>93.85%</td>
-      <td>103.803</td>
-      <td>0.45126</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>gpt-4-turbo-2024-04-09</td>
-      <td>65</td>
-      <td>62</td>
-      <td>3</td>
-      <td>95.38%</td>
-      <td>654.962</td>
-      <td>0.90569</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>gpt-4o-2024-11-20</td>
-      <td>65</td>
-      <td>63</td>
-      <td>2</td>
-      <td>96.92%</td>
-      <td>388.828</td>
-      <td>0.287567</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>gpt-4o-mini-2024-07-18</td>
-      <td>65</td>
-      <td>60</td>
-      <td>5</td>
-      <td>92.31%</td>
-      <td>304.82</td>
-      <td>0.0126082</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>o1-2024-12-17</td>
-      <td>65</td>
-      <td>58</td>
-      <td>7</td>
-      <td>89.23%</td>
-      <td>705.665</td>
-      <td>3.94299</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>o1-2024-12-17</td>
-      <td>65</td>
-      <td>58</td>
-      <td>6</td>
-      <td>89.23%</td>
-      <td>393.679</td>
-      <td>1.96041</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>o1-mini-2024-09-12</td>
-      <td>65</td>
-      <td>65</td>
-      <td>0</td>
-      <td>100.00%</td>
-      <td>423.585</td>
-      <td>0.268451</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>o3-mini-2025-01-31</td>
-      <td>65</td>
-      <td>63</td>
-      <td>2</td>
-      <td>96.92%</td>
-      <td>539.455</td>
-      <td>0.344227</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-associate-saa-c03</td>
-      <td>o3-mini-2025-01-31</td>
-      <td>65</td>
-      <td>64</td>
-      <td>1</td>
-      <td>98.46%</td>
-      <td>203.692</td>
-      <td>0.0811162</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>gpt-3.5-turbo-0125</td>
-      <td>75</td>
-      <td>33</td>
-      <td>42</td>
-      <td>44.00%</td>
-      <td>87.5845</td>
-      <td>0.0215195</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>gpt-4-0613</td>
-      <td>75</td>
-      <td>53</td>
-      <td>22</td>
-      <td>70.67%</td>
-      <td>174.844</td>
-      <td>0.91485</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>gpt-4-turbo-2024-04-09</td>
-      <td>75</td>
-      <td>53</td>
-      <td>22</td>
-      <td>70.67%</td>
-      <td>888.426</td>
-      <td>1.26631</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>gpt-4o-2024-11-20</td>
-      <td>75</td>
-      <td>56</td>
-      <td>19</td>
-      <td>74.67%</td>
-      <td>437.607</td>
-      <td>0.42255</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>gpt-4o-mini-2024-07-18</td>
-      <td>75</td>
-      <td>54</td>
-      <td>21</td>
-      <td>72.00%</td>
-      <td>431.361</td>
-      <td>0.0189192</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>o1-2024-12-17</td>
-      <td>75</td>
-      <td>66</td>
-      <td>9</td>
-      <td>88.00%</td>
-      <td>655.529</td>
-      <td>3.69163</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>o1-2024-12-17</td>
-      <td>75</td>
-      <td>68</td>
-      <td>7</td>
-      <td>90.67%</td>
-      <td>1330.82</td>
-      <td>8.23868</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>o1-mini-2024-09-12</td>
-      <td>75</td>
-      <td>62</td>
-      <td>13</td>
-      <td>82.67%</td>
-      <td>595.887</td>
-      <td>0.403484</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>o3-mini-2025-01-31</td>
-      <td>75</td>
-      <td>59</td>
-      <td>16</td>
-      <td>78.67%</td>
-      <td>265.384</td>
-      <td>0.134382</td>
-    </tr>
-    <tr>
-      <td>solutions-architect-professional-sap-c02</td>
-      <td>o3-mini-2025-01-31</td>
-      <td>75</td>
-      <td>66</td>
-      <td>9</td>
-      <td>88.00%</td>
-      <td>1051.07</td>
-      <td>0.720844</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+This tool automates the process of:
+1. Loading multiple-choice questions from a JSON file
+2. Sending these questions to various LLM models
+3. Extracting and evaluating the answers
+4. Calculating token usage and associated costs
+5. Generating detailed performance reports
 
-## Project Overview
+## Features
 
-This framework provides a complete pipeline for:
-1. Sending questions to various LLM models
-2. Calculating the costs of API calls
-3. Extracting answer selections from model responses
-4. Processing question and answer files into a structured format
-5. Evaluating model accuracy against correct answers
-6. Summarizing and comparing results across models
-
-## Components
-
-The project consists of several Python scripts that work together:
-
-1. **[get-llm-answers.py](README_get-llm-answers.md)**: Sends questions to LLM models and collects responses
-2. **[calculate_costs.py](README_calculate_costs.md)**: Calculates token usage costs for each model response
-3. **[analyze_model_answers.py](README_analyze_model_answers.md)**: Extracts answer selections from model responses
-4. **[process_qa_to_json.py](README_process_qa_to_json.md)**: Processes question and answer files into a structured JSON format
-5. **[evaluate_llm_answers.py](README_evaluate_llm_answers.md)**: Evaluates model answers against correct answers
-6. **[summarize_llm_results.py](README_summarize_llm_results.md)**: Generates summary tables and statistics
-
-## Workflow
-
-The typical workflow for using this framework is:
-
-1. **Prepare Questions**: Create or obtain question and answer files in markdown format
-2. **Process Q&A Files**: Convert question and answer files to structured JSON
-   ```bash
-   python process_qa_to_json.py --input questions/ --output outputs/qa_data.json
-   ```
-3. **Run Models**: Send questions to various LLM models
-   ```bash
-   python get-llm-answers.py --questions questions/exam-name.md --models gpt-4o-2024-11-20 o1-2024-12-17
-   ```
-4. **Calculate Costs**: Add cost information to the response files
-   ```bash
-   python calculate_costs.py outputs/ --recursive
-   ```
-5. **Analyze Answers**: Extract answer selections from model responses
-   ```bash
-   python analyze_model_answers.py outputs/
-   ```
-6. **Evaluate Accuracy**: Compare model answers with correct answers
-   ```bash
-   python evaluate_llm_answers.py outputs/ --qa_data outputs/qa_data.json
-   ```
-7. **Summarize Results**: Generate summary tables and statistics
-   ```bash
-   python summarize_llm_results.py --directory outputs/
-   ```
-
-## Directory Structure
-
-```
-benchmark-llms/
-├── get-llm-answers.py           # Script to send questions to LLMs
-├── calculate_costs.py           # Script to calculate token usage costs
-├── analyze_model_answers.py     # Script to extract answer selections
-├── process_qa_to_json.py        # Script to process Q&A files
-├── evaluate_llm_answers.py      # Script to evaluate model accuracy
-├── summarize_llm_results.py     # Script to generate summary statistics
-├── questions/                   # Directory for question and answer files
-│   ├── exam-name-question.md    # Question file
-│   └── exam-name-answers.md     # Answer file
-└── outputs/                     # Directory for output files
-    ├── qa_data.json             # Processed Q&A data
-    └── model_timestamp.json     # Model response files
-```
-
-## Requirements
-
-- Python 3.8+
-- OpenAI API key (set as environment variable `OPENAI_API_KEY`)
-- Required Python packages:
-  - openai
-  - tqdm
-  - pandas
-  - tabulate
-  - argparse
-  - concurrent.futures
+- **Multi-model Support**: Test multiple LLMs side-by-side (Claude, GPT-4, etc.)
+- **Parallel Processing**: Process questions in configurable batch sizes for efficiency
+- **Reasoning Effort Control**: Adjust reasoning effort for models that support it
+- **Cost Calculation**: Track token usage and calculate costs based on model pricing
+- **Comprehensive Reporting**: Generate detailed JSON reports with:
+  - Accuracy metrics
+  - Response timing
+  - Token usage statistics
+  - Cost analysis
+  - Individual question evaluations
 
 ## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/benchmark-llms.git
-   cd benchmark-llms
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/benchmark-llms.git
+cd benchmark-llms
 
-2. Install required packages:
-   ```bash
-   pip install openai tqdm pandas tabulate
-   ```
+# Install dependencies
+pip install openai tqdm
+```
 
-3. Set up your OpenAI API key:
-   ```bash
-   export OPENAI_API_KEY='your-api-key'
-   ```
+## Usage
+
+### Basic Usage
+
+```bash
+python generate_comprehensive_report.py --model MODEL_NAME --qa-data path/to/qa_data.json --output path/to/output
+```
+
+### Evaluate All Available Models
+
+```bash
+python generate_comprehensive_report.py --all-models --qa-data path/to/qa_data.json --output path/to/output
+```
+
+### Command Line Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `--model MODEL_NAME` | Specific model to evaluate (e.g., "o3-mini-2025-01-31") |
+| `--all-models` | Run evaluation on all available models |
+| `--qa-data PATH` | Path to the question-answer JSON file (required) |
+| `--output PATH` | Path to save the output report (required) |
+| `--test-id ID` | Process only a specific test from the qa_data.json file |
+| `--batch-size N` | Number of questions to process in parallel (default: 10) |
+| `--reasoning-effort {low,medium,high}` | Set reasoning effort for models that support it |
+
+## Input Data Format
+
+The script expects a JSON file with the following structure:
+
+```json
+{
+  "test_id_1": [
+    {
+      "id": "q1",
+      "question": "What is the capital of France?",
+      "options": {
+        "A": "London",
+        "B": "Paris",
+        "C": "Berlin",
+        "D": "Madrid"
+      },
+      "correct_answer": ["B"]
+    },
+    // More questions...
+  ],
+  "test_id_2": [
+    // Another set of questions...
+  ]
+}
+```
+
+## How It Works
+
+### Workflow
+
+1. **Load Questions**: The script loads questions from the specified JSON file.
+2. **Process Questions**: Questions are processed in parallel batches:
+   - Each question is formatted with its options
+   - The formatted question is sent to the specified LLM
+   - Response timing is recorded
+3. **Extract Answers**: A separate GPT-4o call extracts the letter selections (A, B, C, etc.) from the model's response.
+4. **Evaluate Answers**: The selected answers are compared to the correct answers.
+5. **Calculate Costs**: Token usage is analyzed to calculate costs based on model pricing.
+6. **Generate Report**: A comprehensive JSON report is created with all the collected data.
+
+### Key Components
+
+- **Question Processing**: The `process_question` function handles sending questions to the LLM and collecting responses.
+- **Answer Extraction**: The `extract_answer_selections` function uses GPT-4o to extract letter selections from free-text responses.
+- **Cost Calculation**: The `calculate_costs` function computes costs based on token usage and model pricing.
+- **Answer Evaluation**: The `evaluate_answer` function compares selected answers against correct answers.
+- **Report Generation**: The `generate_comprehensive_report` function orchestrates the entire process and creates the final report.
+
+## Output Format
+
+The script generates a JSON report with the following structure:
+
+```json
+{
+  "metadata": {
+    "model": "model-name",
+    "questions_file": "qa_data.json",
+    "total_questions": 100,
+    "test_start_time": "2023-01-01T12:00:00",
+    "test_id": "model_name_20230101_120000",
+    "batch_size": 10,
+    "total_duration_seconds": 120.5,
+    "costs": {
+      "total_prompt_cost": 0.05,
+      "total_completion_cost": 0.03,
+      "total_reasoning_cost": 0.01,
+      "total_cost": 0.09
+    },
+    "total_correct": 85,
+    "total_incorrect": 15,
+    "accuracy": 0.85
+  },
+  "responses": [
+    {
+      "question": "What is the capital of France?...",
+      "response": { /* Full API response */ },
+      "timing": {
+        "start_time": "2023-01-01T12:00:01",
+        "end_time": "2023-01-01T12:00:02",
+        "duration_seconds": 1.2
+      },
+      "costs": {
+        "prompt_cost": 0.0005,
+        "completion_cost": 0.0003,
+        "reasoning_cost": 0.0001,
+        "total_cost": 0.0009
+      },
+      "answer_selections": ["B"],
+      "evaluation": {
+        "correct_answer": ["B"],
+        "options": { /* Question options */ },
+        "status": "correct",
+        "message": "Answer is correct"
+      }
+    },
+    // More responses...
+  ],
+  "evaluation_summary": {
+    "total_questions": 100,
+    "correct_answers": 85,
+    "incorrect_answers": 15,
+    "unanswered_questions": 0,
+    "accuracy": 0.85
+  }
+}
+```
+
+## Supported Models
+
+The script supports various LLM models, configured in the `MODELS` list at the top of the script:
+
+- Claude models (o3-mini, o1, o1-mini)
+- GPT models (gpt-4o, gpt-4o-mini, gpt-4, gpt-4-turbo, gpt-3.5-turbo)
+
+Each model entry includes:
+- Name
+- Whether reasoning is required/supported
+- Default reasoning effort (if applicable)
+- Input and output costs per million tokens
+
+## Adding New Models
+
+To add a new model, add an entry to the `MODELS` list:
+
+```python
+{
+    "name": "model-name",
+    "reasoning_required": True/False,
+    "default_effort": "low/medium/high",  # Only for models with reasoning
+    "input": 1.0,  # Cost per million input tokens
+    "output": 2.0  # Cost per million output tokens
+}
+```
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+[Your License Here]
 
-## Acknowledgments
+## Contributing
 
-- OpenAI for providing the API access
-- Anthropic for Claude models
-- Contributors to the question datasets 
+[Your Contribution Guidelines Here] 
